@@ -4,7 +4,7 @@
 This program converts `.xls` Excel files into a properly formatted `.csv` file for Red Cross Learning Center class setup.
 
 ## How to Use
-1. Download `ARCFileConverter.exe` from the [Releases](https://github.com/your-username/repo-name/releases) page.
+1. Download `ARCFileConverter.exe` from the [Releases](https://github.com/Samsonw1204/ARCFileConverter/releases) page.
 2. Double-click the `.exe` to start the program.
 3. Follow the on-screen prompts to convert your file.
 
