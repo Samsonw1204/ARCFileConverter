@@ -1,0 +1,29 @@
+
+
+Version:	3.50
+CmdLine:	X:\ConvertCSV\ARCFileConverter\ARCFileConverter.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	X:\ConvertCSV\ARCFileConverter\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	1.017.000
+Java max ver:	
+JRE paths:	.\jre
+Check launcher:	X:\ConvertCSV\ARCFileConverter\.\jre\bin\javaw.exe (not found)
+64-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+32-bit search:	SOFTWARE\JavaSoft\Java Runtime Environment...
+64-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+32-bit search:	SOFTWARE\JavaSoft\Java Development Kit...
+64-bit search:	SOFTWARE\JavaSoft\JRE...
+32-bit search:	SOFTWARE\JavaSoft\JRE...
+64-bit search:	SOFTWARE\JavaSoft\JDK...
+Check:		SOFTWARE\JavaSoft\JDK\23.0.2
+Version string: 1.023.000_002 / 64-Bit (OK)
+Check launcher:	C:\Program Files\Java\jdk-23\bin\javaw.exe (OK)
+Match:		1.023.000_002
+Runtime used:	1.023.000_002 (64-bit)
+Launcher:	C:\Program Files\Java\jdk-23\bin\javaw.exe
+Launcher args:	-jar "X:\ConvertCSV\ARCFileConverter\ARCFileConverter.exe"
+Args length:	58/32768 chars
+Exit code:	0
