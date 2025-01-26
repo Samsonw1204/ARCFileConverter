@@ -17,7 +17,27 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+/**
+ * Converts an Excel (.xls) roster file into a CSV file formatted for Red Cross
+ * blended learning class setup. The output file contains student details, such
+ * as first name, last name, email, and phone.
+ * <p>
+ * Key features include:
+ * <ul>
+ * <li>Validation of required fields (name, email).</li>
+ * <li>Fallback for missing or invalid phone numbers.</li>
+ * <li>Duplicate email detection and error handling.</li>
+ * </ul>
+ */
+
 public class ExcelToCsvConverter {
+
+    /**
+     * Main entry point of the program.
+     * Prompts the user for the Excel file path and processes it into a CSV file.
+     *
+     * @param args Command-line arguments (not used).
+     */
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
@@ -40,6 +60,12 @@ public class ExcelToCsvConverter {
         }
     }
 
+    /**
+     * Prompts the user for the Excel file path and validates the input.
+     *
+     * @param scanner Scanner instance for reading user input.
+     * @return Validated file path as a string.
+     */
     private static String getFilePath(Scanner scanner) {
         while (true) {
             System.out.print("Enter the path to the Excel file (or type QUIT to exit): ");
@@ -64,6 +90,13 @@ public class ExcelToCsvConverter {
         }
     }
 
+    /**
+     * Extracts student data from the Excel file.
+     *
+     * @param filePath Path to the input Excel file.
+     * @return List of students extracted from the file.
+     * @throws IOException If an error occurs while reading the file.
+     */
     private static List<Student> extractStudentData(String filePath) throws IOException {
         List<Student> students = new ArrayList<>();
 
@@ -113,12 +146,25 @@ public class ExcelToCsvConverter {
         return students;
     }
 
+    /**
+     * Validates if the parent email matches the student's email.
+     *
+     * @param firstName  Student's first name.
+     * @param lastName   Student's last name.
+     * @param email      Student's email.
+     * @param parentEmail Parent's email.
+     */
     private static void validateParentEmail(String firstName, String lastName, String email, String parentEmail) {
         if (email.equalsIgnoreCase(parentEmail)) {
             System.out.println("\u001B[33mWarning: Participant " + firstName + " " + lastName + " has the same email as their parent.\u001B[0m");
         }
     }
 
+    /**
+     * Validates the extracted student data for errors, such as duplicate emails.
+     *
+     * @param students List of students to validate.
+     */
     private static void validateData(List<Student> students) {
         Map<String, List<Student>> duplicateEmails = new HashMap<>();
         List<String> errorMessages = new ArrayList<>();
@@ -142,7 +188,14 @@ public class ExcelToCsvConverter {
             throw new IllegalStateException("\u001B[31mCritical Error: " + String.join("; ", errorMessages) + " -- These Errors Must be Resolved to Avoid Program Termination.\u001B[0m");
         }
     }
-
+    
+    /**
+     * Writes the student data to a CSV file.
+     *
+     * @param students  List of students to write.
+     * @param filePath Path to the output CSV file.
+     * @throws IOException If an error occurs while writing to the file.
+     */
     private static void writeCsv(List<Student> students, String filePath) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write("First Name,Last Name,Email,Phone\n");
