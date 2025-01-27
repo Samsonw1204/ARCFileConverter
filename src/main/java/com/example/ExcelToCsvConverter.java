@@ -39,27 +39,34 @@ public class ExcelToCsvConverter {
      * @param args Command-line arguments (not used).
      */
 
-    public static void main(String[] args) {
-        try (Scanner scanner = new Scanner(System.in)) {
+     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in); // Declare scanner outside the try-with-resources block
+    
+        try {
             System.out.println("Welcome to the Excel to CSV Converter.");
             System.out.println("If you downloaded the Excel file from RecDesk, it may be in your Downloads folder.");
             System.out.println("Example file path: C:/Users/YourName/Downloads/RosterExtract-XXXXXX.xls");
-
+    
             String inputFilePath = getFilePath(scanner);
             String outputFilePath = new File(inputFilePath).getParent() + "/BlendedClassSetup.csv";
-
+    
             try {
                 List<Student> students = extractStudentData(inputFilePath);
                 validateData(students);
                 writeCsv(students, outputFilePath);
-                System.out.println("[32mCSV file created successfully at: " + outputFilePath + "[0m");
+                System.out.println("\u001B[32mCSV file created successfully at: " + outputFilePath + "\u001B[0m");
             } catch (IOException e) {
-                System.err.println("[31mCSV creation failed due to program termination.[0m");
-                System.err.println("[31mError: " + e.getMessage() + "[0m");
+                System.err.println("\u001B[31mCSV creation failed due to program termination.\u001B[0m");
+                System.err.println("\u001B[31mError: " + e.getMessage() + "\u001B[0m");
             }
+        } finally {
+            // Wait for user input before exiting
+            System.out.println("Press Enter to exit...");
+            scanner.nextLine(); // Pause for user input
+            scanner.close(); // Close the scanner properly
         }
     }
-
+    
     /**
      * Prompts the user for the Excel file path and validates the input.
      *

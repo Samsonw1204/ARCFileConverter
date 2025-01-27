@@ -10,7 +10,7 @@
   <priority>normal</priority>
   <downloadUrl></downloadUrl>
   <supportUrl></supportUrl>
-  <stayAlive>false</stayAlive>
+  <stayAlive>true</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
   <icon>C:\Users\samso_p8stg6l\Downloads\java_original_wordmark_logo_icon_146459.ico</icon>
