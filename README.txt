@@ -18,7 +18,7 @@ This program converts `.xls` Excel files into a properly formatted `.csv` file f
 - Ensure that the input file is an export from RecDesk; it will only work for files formatted in that way.
 
 ## Security
-- The .exe file provided to run this program does not include a security certificate from a trusted authority. Purchasing such a certificate was not feasible for me as they are quite expensive.
+- The .exe file provided to run this program does not include a security certificate from a trusted authority. Purchasing such a certificate was not feasible due to their cost.
 - Why this happens: 
     - Windows Defender and other antivirus programs are designed to flag unsigned executables as a precaution against malicious software. 
     - This is not an indication of actual harm but rather a lack of verification by a recognized authority.
