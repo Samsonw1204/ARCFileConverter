@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.stream.Collectors;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -40,7 +39,7 @@ public class ExcelToCsvConverter {
      */
 
      public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in); // Declare scanner outside the try-with-resources block
+        Scanner scanner = new Scanner(System.in); // Declare scanner outside try-catch for reuse
     
         try {
             System.out.println("Welcome to the Excel to CSV Converter.");
@@ -56,16 +55,24 @@ public class ExcelToCsvConverter {
                 writeCsv(students, outputFilePath);
                 System.out.println("\u001B[32mCSV file created successfully at: " + outputFilePath + "\u001B[0m");
             } catch (IOException e) {
-                System.err.println("\u001B[31mCSV creation failed due to program termination.\u001B[0m");
-                System.err.println("\u001B[31mError: " + e.getMessage() + "\u001B[0m");
+                // Catch IO-related errors
+                System.err.println("\u001B[31mError: CSV Creation Failed Due to Program Termination \u001B[0m");
+                System.err.println("\u001B[31mDetails: " + e.getMessage() + "\u001B[0m");
+            } catch (IllegalStateException e) {
+                // Catch critical validation errors
+                System.err.println(e.getMessage());
+            } catch (Exception e) {
+                // Catch all other unexpected errors
+                System.err.println("\u001B[31mAn unexpected error occurred: " + e.getMessage() + "\u001B[0m");
             }
         } finally {
-            // Wait for user input before exiting
+            // Always pause before exiting
             System.out.println("Press Enter to exit...");
             scanner.nextLine(); // Pause for user input
             scanner.close(); // Close the scanner properly
         }
     }
+    
     
     /**
      * Prompts the user for the Excel file path and validates the input.
