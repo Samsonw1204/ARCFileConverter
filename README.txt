@@ -1,7 +1,7 @@
 # Excel to CSV Converter
 
 ## Overview
-This program converts `.xls` Excel files into a properly formatted `.csv` file for Red Cross Learning Center class setup.
+This program converts `.xls` roster output files into a properly formatted `.csv` file for Red Cross Learning Center class setup.
 
 ## How to Use
 1. Download `ARCFileConverter_Releases.zip` directory from the [Releases](https://github.com/Samsonw1204/ARCFileConverter/releases) page.
