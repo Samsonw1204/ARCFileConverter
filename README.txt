@@ -10,7 +10,7 @@ This program converts `.xls` Excel files into a properly formatted `.csv` file f
 4. Follow the on-screen prompts to convert your file.
 
 ## Requirements
-- Java Runtime Environment (if not bundled)
+- Java Runtime Environment (Bundled into program software)
 
 ## Notes
 - The program only supports `.xls` files (not `.xlsx`).
