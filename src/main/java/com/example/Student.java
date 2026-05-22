@@ -35,10 +35,10 @@ public class Student {
      * @param phone     The phone number of the student. This can be null or empty if not available.
      */
     public Student(String firstName, String lastName, String email, String phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phone = phone;
+        this.firstName = firstName != null ? firstName.trim() : "";
+        this.lastName = lastName != null ? lastName.trim() : "";
+        this.email = email != null ? email.trim() : "";
+        this.phone = phone != null ? phone.trim() : "";
     }
 
     /**
@@ -50,6 +50,27 @@ public class Student {
     @Override
     public String toString() {
         String formattedPhone = phone != null ? phone.replaceAll("\\D", "") : "";
-        return String.join(",", firstName, lastName, email, formattedPhone);
+
+        return String.join(",",
+            escapeCsv(firstName),
+            escapeCsv(lastName),
+            escapeCsv(email),
+            escapeCsv(formattedPhone)
+        );
+    }
+
+    /**
+     * Escapes values for safe CSV output.
+     */
+    private String escapeCsv(String value) {
+        if (value == null) {
+            return "";
+        }
+
+        if (value.contains(",") || value.contains("\"") || value.contains("\n") || value.contains("\r")) {
+            return "\"" + value.replace("\"", "\"\"") + "\"";
+        }
+
+        return value;
     }
 }
