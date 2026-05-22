@@ -20,7 +20,10 @@ public class Utils {
      * @return The string representation of the cell's value, or an empty string if the cell is null or has no valid data.
      */
     public static String getCellValue(Cell cell) {
-        if (cell == null) return "";
+        if (cell == null) {
+            return "";
+        }
+
         switch (cell.getCellType()) {
             case STRING -> {
                 return cell.getStringCellValue().trim();
@@ -33,9 +36,9 @@ public class Utils {
             }
             case FORMULA -> {
                 try {
-                    return cell.getStringCellValue();
+                    return cell.getStringCellValue().trim();
                 } catch (Exception e) {
-                    return String.valueOf(cell.getNumericCellValue());
+                    return String.valueOf((long) cell.getNumericCellValue());
                 }
             }
             default -> {
@@ -45,7 +48,7 @@ public class Utils {
     }
 
     /**
-     * Finds the index of a column in an Excel sheet by its header name.
+     * Finds the index of a required column in an Excel sheet by its header name.
      *
      * @param sheet      The {@link Sheet} object to search in.
      * @param columnName The name of the column header to find.
@@ -53,15 +56,46 @@ public class Utils {
      * @throws IllegalArgumentException If the header row is missing or the column name is not found.
      */
     public static int getColumnIndex(Sheet sheet, String columnName) {
-        Row headerRow = sheet.getRow(0); // Assuming the first row contains headers
-        if (headerRow == null) throw new IllegalArgumentException("Header row is missing.");
+        Row headerRow = sheet.getRow(0);
+
+        if (headerRow == null) {
+            throw new IllegalArgumentException("Header row is missing.");
+        }
 
         for (Cell cell : headerRow) {
-            if (cell.getCellType() == CellType.STRING && cell.getStringCellValue().trim().equalsIgnoreCase(columnName)) {
+            String cellValue = getCellValue(cell).trim();
+
+            if (cell.getCellType() == CellType.STRING && cellValue.equalsIgnoreCase(columnName.trim())) {
                 return cell.getColumnIndex();
             }
         }
+
         throw new IllegalArgumentException("Column '" + columnName + "' not found.");
+    }
+
+    /**
+     * Finds the index of an optional column in an Excel sheet by its header name.
+     *
+     * @param sheet      The {@link Sheet} object to search in.
+     * @param columnName The name of the column header to find.
+     * @return The zero-based index of the column, or -1 if the column is not found.
+     */
+    public static int getOptionalColumnIndex(Sheet sheet, String columnName) {
+        Row headerRow = sheet.getRow(0);
+
+        if (headerRow == null) {
+            return -1;
+        }
+
+        for (Cell cell : headerRow) {
+            String cellValue = getCellValue(cell).trim();
+
+            if (cellValue.equalsIgnoreCase(columnName.trim())) {
+                return cell.getColumnIndex();
+            }
+        }
+
+        return -1;
     }
 
     /**
@@ -71,7 +105,9 @@ public class Utils {
      * @return {@code true} if the email contains "@" and ".", otherwise {@code false}.
      */
     public static boolean isValidEmail(String email) {
-        return email != null && email.contains("@") && email.contains(".");
+        return email != null
+            && email.contains("@")
+            && email.contains(".");
     }
 
     /**
@@ -82,8 +118,11 @@ public class Utils {
      * @return {@code true} if the phone number is valid, otherwise {@code false}.
      */
     public static boolean isValidPhone(String phone) {
-        if (phone == null) return false;
-        String digitsOnly = phone.replaceAll("\\D", ""); // Remove all non-numeric characters
+        if (phone == null) {
+            return false;
+        }
+
+        String digitsOnly = phone.replaceAll("\\D", "");
         return digitsOnly.length() == 10;
     }
 
@@ -95,7 +134,8 @@ public class Utils {
      */
     public static void logSkippedRow(int rowNum, String message) {
         try (BufferedWriter logWriter = new BufferedWriter(new FileWriter("skipped_rows.log", true))) {
-            logWriter.write("Skipped row " + rowNum + ": " + message + "\n");
+            logWriter.write("Skipped row " + rowNum + ": " + message);
+            logWriter.newLine();
         } catch (IOException e) {
             System.err.println("Failed to log skipped row " + rowNum + ": " + e.getMessage());
         }

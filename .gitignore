@@ -1,0 +1,8 @@
+﻿target/
+jre/
+*.pfx
+*.cer
+*.exe
+*.log
+*.class
+.vscode/
