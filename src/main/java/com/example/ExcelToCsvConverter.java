@@ -45,6 +45,14 @@ public class ExcelToCsvConverter {
             String outputFilePath = new File(inputFilePath).getParent() + "/BlendedClassSetup.csv";
 
             try {
+                File outputFile = new File(outputFilePath);
+
+                // Remove any old output file before processing so a failed run does not
+                // leave behind a stale CSV that appears to be newly created.
+                if (outputFile.exists() && !outputFile.delete()) {
+                    throw new IOException("Unable to delete existing output file: " + outputFilePath);
+                }
+
                 List<Student> students = extractStudentData(inputFilePath);
                 validateData(students);
                 writeCsv(students, outputFilePath);
@@ -102,6 +110,7 @@ public class ExcelToCsvConverter {
      */
     private static List<Student> extractStudentData(String filePath) throws IOException {
         List<Student> students = new ArrayList<>();
+        List<String> validationErrors = new ArrayList<>();
 
         try (FileInputStream fis = new FileInputStream(filePath);
              Workbook workbook = new HSSFWorkbook(fis)) {
@@ -150,10 +159,12 @@ public class ExcelToCsvConverter {
                     String email = getBestEmail(row, emailIndex, wsiEmailIndex);
 
                     if (!Utils.isValidEmail(email)) {
-                        Utils.logSkippedRow(
-                            row.getRowNum() + 1,
-                            "\u001B[31mInvalid email: " + email + "\u001B[0m"
-                        );
+                        String message = "Row " + (row.getRowNum() + 1)
+                            + " (" + firstName + " " + lastName + ") has an invalid participant email: \""
+                            + email + "\"";
+
+                        validationErrors.add(message);
+                        Utils.logSkippedRow(row.getRowNum() + 1, message);
                         continue;
                     }
 
@@ -167,12 +178,20 @@ public class ExcelToCsvConverter {
                     }
 
                 } catch (IllegalArgumentException e) {
-                    Utils.logSkippedRow(
-                        row.getRowNum() + 1,
-                        "\u001B[31m" + e.getMessage() + "\u001B[0m"
-                    );
+                    String message = "Row " + (row.getRowNum() + 1) + ": " + e.getMessage();
+                    validationErrors.add(message);
+                    Utils.logSkippedRow(row.getRowNum() + 1, message);
                 }
             }
+        }
+
+        if (!validationErrors.isEmpty()) {
+            throw new IllegalStateException(
+                "\u001B[31mCritical Error: One or more rows contain invalid data. "
+                + "CSV file was not created. Please correct the following:\n"
+                + String.join("\n", validationErrors)
+                + "\u001B[0m"
+            );
         }
 
         return students;
