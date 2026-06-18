@@ -1,7 +1,7 @@
 # Excel to CSV Converter
 
 ## Overview
-This program converts `.xls` roster output files from RecDesk into a properly formatted `.csv` file for Red Cross Learning Center class setup.
+This program converts `.xls` roster output files from RecDesk into a properly formatted `.csv` file for Red Cross Learning Center class setup. This program works for both Lifeguarding and WSI course roster exports.
 
 ## How to Use
 1. Download `ARCFileConverter_Releases.zip` directory from the [Releases](https://github.com/Samsonw1204/ARCFileConverter/releases) page.
@@ -23,7 +23,6 @@ This program converts `.xls` roster output files from RecDesk into a properly fo
     - Windows Defender and other antivirus programs are designed to flag unsigned executables as a precaution against malicious software. 
     - This is not an indication of actual harm but rather a lack of verification by a recognized authority.
 - Why this program is safe:
-    - This program was built entirely using Java, a widely used programming language.
     - The executable (.exe file) was generated directly from the program’s source code, which you can inspect in this GitHub repository to verify its contents.
     - The included files, such as the jre/ folder, are standard components from the official Java distribution.
 - Running the Program:
